@@ -1,6 +1,15 @@
 package machine;
 
 public enum MachineState {
+
+    CHOOSING_LANGUAGE{
+        @Override
+        void process(CoffeeMachine machine, String input) {
+            System.out.println(input);
+             machine.setConsoleOutput(input);
+            machine.transitionToChoosing_option();
+        }
+    },
     CHOOSING_OPTION{
         @Override
         void process(CoffeeMachine machine, String input) {
@@ -8,21 +17,21 @@ public enum MachineState {
             //2. transition in the new state
             //3. Very strict rule: when transition to a new state we must also print the menu
             switch(input){
-                case "buy":
+                case "1":
                     machine.transitionToChoosingCoffeeType();
                     break;
-                case "fill":
+                case "2":
                     System.out.println("filling stuff");
                     machine.transitionToInputWater();
                     break;
-                case "take":
+                case "3":
                     machine.transitionToTakeMoney(); // starea "take" este diferite de Choosing_option prin faptul ca ea nu are nevoie de userInput
                     break;
-                case "remaining":
+                case "4":
                     System.out.println("remaining stuff");
                     machine.transitionToPrintStatus();
                     break;
-                case "exit":
+                case "5":
                     System.out.println("exit stuff");
                     break;
                 default:
@@ -112,9 +121,8 @@ public enum MachineState {
     EXIT{
         @Override
         void process(CoffeeMachine machine, String input) {
-        machine.isRunning(input);
-        machine.transitionToExit();
-        return;
+            machine.setRunning(false);
+            return;
         }
     };
 
